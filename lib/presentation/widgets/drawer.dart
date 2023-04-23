@@ -34,20 +34,24 @@ class AppDrawer extends StatelessWidget {
           ),
           _drawerChilde(
               title: "Bitcoin Price",
-              onTap: () => Navigator.pushNamed(context, Routes.bitcoin)),
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, Routes.bitcoin)),
           _drawerChilde(
               title: "Fibonacci",
-              onTap: () => Navigator.pushNamed(context, Routes.fibonacci)),
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, Routes.fibonacci)),
           _drawerChilde(
               title: "Prime Number",
-              onTap: () => Navigator.pushNamed(context, Routes.primeNumber)),
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, Routes.primeNumber)),
           _drawerChilde(
               title: "Filter Array",
-              onTap: () => Navigator.pushNamed(context, Routes.filterArray)),
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, Routes.filterArray)),
           _drawerChilde(
               title: "Validate Pincode",
-              onTap: () =>
-                  Navigator.pushNamed(context, Routes.validatePincode)),
+              onTap: () => Navigator.pushReplacementNamed(
+                  context, Routes.validatePincode)),
         ],
       ),
     );

@@ -31,6 +31,9 @@ class _ValidatePincodePageState extends State<ValidatePincodePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBarHeight = AppBar().preferredSize.height;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final fullHeight = screenHeight - appBarHeight;
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -46,65 +49,71 @@ class _ValidatePincodePageState extends State<ValidatePincodePage> {
         }),
       ),
       drawer: const AppDrawer(),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 110,
-                child: _showIcon
-                    ? CircleIcon(
-                        icon: _isValid ? Icons.check : Icons.close,
-                        description: _isValid ? "Success" : "Failure",
-                        color: _isValid ? AppColors.success : AppColors.fail,
-                        colorDescription:
-                            _isValid ? AppColors.success : AppColors.fail,
-                      )
-                    : null,
-              ),
-              Form(
-                key: _formKey,
-                child: TextFormField(
-                  controller: _inputController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    fillColor: Colors.white,
-                    hintText: 'Enter Pincode',
-                    border: OutlineInputBorder(),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: fullHeight,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 110,
+                    child: _showIcon
+                        ? CircleIcon(
+                            icon: _isValid ? Icons.check : Icons.close,
+                            description: _isValid ? "Success" : "Failure",
+                            color:
+                                _isValid ? AppColors.success : AppColors.fail,
+                            colorDescription:
+                                _isValid ? AppColors.success : AppColors.fail,
+                          )
+                        : null,
                   ),
-                  onChanged: (value) {
-                    _showIcon = false;
-                    setState(() {});
-                  },
-                  validator: (value) {
-                    _isValid = Helper.validatePincode(value).keys.first;
-                    if (!_isValid) {
-                      return Helper.validatePincode(value).values.first;
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _showIcon = true;
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                  }
-                  setState(() {});
+                  Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      controller: _inputController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        fillColor: Colors.white,
+                        hintText: 'Enter Pincode',
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        _showIcon = false;
+                        setState(() {});
+                      },
+                      validator: (value) {
+                        _isValid = Helper.validatePincode(value).keys.first;
+                        if (!_isValid) {
+                          return Helper.validatePincode(value).values.first;
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _showIcon = true;
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                      }
+                      setState(() {});
 
-                  // Perform validation logic here
-                },
-                child: const Text('Validate'),
-              )
-            ],
+                      // Perform validation logic here
+                    },
+                    child: const Text('Validate'),
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       ),
