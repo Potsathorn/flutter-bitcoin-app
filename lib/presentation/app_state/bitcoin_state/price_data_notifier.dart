@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:bitcoin_app/domain/usecase/get_price_data.dart';
 
 class PriceDataNotifier with ChangeNotifier {
-  final GetPriceData _getCurrentWeather;
+  final GetPriceData _getCurrentPriceData;
 
   PriceDataState _priceDataState = PriceDataEmpty();
   double _bitcoinPrice = 0;
@@ -20,7 +20,7 @@ class PriceDataNotifier with ChangeNotifier {
     'EUR',
   ];
 
-  PriceDataNotifier(this._getCurrentWeather);
+  PriceDataNotifier(this._getCurrentPriceData);
 
   PriceDataState get priceDataState => _priceDataState;
   double get bitcoinPrice => _bitcoinPrice;
@@ -47,12 +47,14 @@ class PriceDataNotifier with ChangeNotifier {
     _priceDataState = PriceDataLoading();
     //notifyListeners();
 
-    await _getCurrentWeather.execute().then((result) => result.fold((failure) {
-          _priceDataState = PriceDataError(failure.message);
-          notifyListeners();
-        }, (data) {
-          _priceDataState = PriceDataHasData(data);
-          notifyListeners();
-        }));
+    await _getCurrentPriceData
+        .execute()
+        .then((result) => result.fold((failure) {
+              _priceDataState = PriceDataError(failure.message);
+              notifyListeners();
+            }, (data) {
+              _priceDataState = PriceDataHasData(data);
+              notifyListeners();
+            }));
   }
 }
