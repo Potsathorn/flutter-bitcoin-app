@@ -46,7 +46,6 @@ class PriceDataNotifier with ChangeNotifier {
     log("update");
     _priceDataState = PriceDataLoading();
     //notifyListeners();
-
     await _getCurrentPriceData
         .execute()
         .then((result) => result.fold((failure) {
